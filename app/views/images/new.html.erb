@@ -1,0 +1,35 @@
+<h1>Create New Image</h1>
+
+<%= form_with(model: @image, class: "form") do |form| %>
+  <div class="form-input" id='name_input'>
+    <%= form.label :name %>
+    <%= form.text_field :name%>
+    <% unless @image.errors[:name].empty? %>
+      <% @image.errors[:name].each do |error| %>
+        <small class="form-text text-muted"><%= error %></small>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-input" id='url_input'>
+    <%= form.label :url %>
+    <%= form.text_field :url%>
+    <% unless @image.errors[:url].empty? %>
+      <% @image.errors[:url].each do |error| %>
+        <small class="form-text text-muted"><%= error %></small>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-input" id='description_input'>
+    <%= form.label :description %>
+    <%= form.text_field :description%>
+    <% unless @image.errors[:description].empty? %>
+      <% @image.errors[:description].each do |error| %>
+        <small class="form-text text-muted"><%= error %></small>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= form.submit %>
+<% end %>

@@ -1,0 +1,10 @@
+<h1>Dig This Image!</h1>
+
+<h2><%= @image.name || "Unnamed Image"%></h2>
+
+<%= image_tag @image.url %>
+
+<h4>Description:</h4>
+<p><%= @image.description || "It speaks for itself"%>
+<%= link_to "Add Image", new_image_path %>
+<%= link_to "See all Images", images_path %>

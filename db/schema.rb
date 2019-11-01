@@ -13,9 +13,9 @@
 ActiveRecord::Schema.define(version: 2019_10_29_232236) do
 
   create_table "images", force: :cascade do |t|
-    t.string "name"
-    t.string "url"
-    t.string "description"
+    t.string "name", null: false
+    t.string "url", null: false
+    t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

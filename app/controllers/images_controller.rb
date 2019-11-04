@@ -1,9 +1,11 @@
 class ImagesController < ApplicationController
   before_action :set_image, only: [:show]
 
-  def index; end
+  def index
+    @images = Image.order(created_at: :desc)
+  end
 
-  def show;  end
+  def show; end
 
   def new
     @image = Image.new

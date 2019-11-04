@@ -6,6 +6,21 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'Index should display image list' do
+    (1..3).each do |i|
+      image_params = {
+        name: "test#{i}",
+        url: "https://example.com/kitten#{i}",
+        description: "kitten number: #{i}"
+      }
+      Image.new(image_params).save
+    end
+
+    get images_url
+    assert_select '.js-image-container', Image.count
+    assert_select '.js-image-name:first', 'test3'
+  end
+
   test 'Should GET New' do
     get new_image_url
     assert_response :success

@@ -1,1 +1,16 @@
-<h1>stub: index</h1>
+<h1>Welcome to the Image Sharer!</h1>
+
+<div class="row">
+  <% @images.each do |image| %>
+    <div class="col-sm-12 col-md-6 col-lg-4 js-image-container">
+      <div class="image-card">
+        <h4 class="js-image-name"><%= image.name %></h4>
+        <img src=<%= image.url %>>
+        <p><%= image.description %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+<%= link_to "Add Image", new_image_path %>
+<%= link_to "See all Images", images_path %>
+

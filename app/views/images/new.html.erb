@@ -1,0 +1,15 @@
+<h1>Create New Image</h1>
+<%= form_with(model: @image, class: "form") do |form| %>
+  <% %i[name url description].each do |attr| %>
+    <div class="form-input" id="<%= attr %>_input">
+      <%= form.label attr %>
+      <%= form.text_field attr %>
+      <% unless @image.errors[attr].empty? %>
+        <% @image.errors[attr].each do |error| %>
+          <small class="form-text text-muted"><%= error %></small>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= form.submit %>
+<% end %>

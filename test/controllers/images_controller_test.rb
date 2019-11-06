@@ -8,16 +8,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
   test 'Index should display image list' do
     (1..3).each do |i|
-      image_params = {
-        name: "test#{i}",
-        url: "https://example.com/kitten#{i}",
-        description: "kitten number: #{i}"
-      }
-      Image.new(image_params).save
+      FactoryBot.create(:image, name: "test#{i}")
     end
 
     get images_url
-    assert_select '.js-image-container', Image.count
+    assert_select '.js-image-container', 3
     assert_select '.js-image-name:first', 'test3'
   end
 

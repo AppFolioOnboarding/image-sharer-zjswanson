@@ -16,6 +16,42 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select '.js-image-name:first', 'test3'
   end
 
+  def test_tags_are_displayed_on_index_page
+    (1..3).each do |i|
+      FactoryBot.create(:image, tag_list: "tag #{i}")
+    end
+    get images_path
+
+    assert_select '.js-tag', 3
+    assert_select '.js-tag', 'tag 1'
+    assert_select '.js-tag', 'tag 2'
+    assert_select '.js-tag', 'tag 3'
+  end
+
+  def test_filter_index_by_tag
+    2.times do
+      FactoryBot.create(:image, tag_list: 'tag to filter by')
+    end
+
+    FactoryBot.create(:image, tag_list: 'tag to be filtered out')
+
+    get images_path(tag_filter: 'tag to filter')
+
+    assert_select '.js-image-container', 3
+    assert_select '.js-tag', count: 2, text: 'tag to filter by'
+    assert_select '.js-tag', count: 0, text: 'tag be filtered out'
+  end
+
+  def test_index_return_all_images_when_tag_not_found
+    3.times do
+      FactoryBot.create(:image, tag_list: 'this tag exists')
+    end
+
+    get images_path(tag_filter: 'this tag does not')
+
+    assert_select '.js-image-container', 3
+  end
+
   test 'Should GET New' do
     get new_image_url
     assert_response :success
@@ -64,17 +100,5 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image)
 
     assert_select '.js-tag', 'show test'
-  end
-
-  def test_tags_are_displayed_on_index_page
-    (1..3).each do |i|
-      FactoryBot.create(:image, tag_list: "tag #{i}")
-    end
-    get images_path
-
-    assert_select '.js-tag', 3
-    assert_select '.js-tag', 'tag 1'
-    assert_select '.js-tag', 'tag 2'
-    assert_select '.js-tag', 'tag 3'
   end
 end

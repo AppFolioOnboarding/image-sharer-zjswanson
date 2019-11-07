@@ -9,11 +9,11 @@
 
 <h4>Tags:</h4>
 <% unless @image.tags.empty? %>
-  <li>
+  <ul>
     <% @image.tags.each do |tag| %>
-      <ul class="js-tag"><%= tag.name %></ul>
+      <li class="js-tag"><%= link_to tag, images_path(tag_filter: tag.name) %></li>
     <% end %>
-  </li>
+  </ul>
 <% end %>
 <%= link_to "Add Image", new_image_path %>
 <%= link_to "See all Images", images_path %>

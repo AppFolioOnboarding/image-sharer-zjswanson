@@ -40,4 +40,12 @@ class ImageTest < ActiveSupport::TestCase
     assert image4.valid?
     assert image4.errors.details[:url].empty?
   end
+
+  def test_tag_list_correctly_applied
+    FactoryBot.create(:image, name: 'tag test', tag_list: 'tag1, tag2')
+    image = Image.last
+
+    assert_equal 2, image.tags.count
+    assert_equal(%w[tag1 tag2], image.tags.map(&:name).sort)
+  end
 end

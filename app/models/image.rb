@@ -4,6 +4,8 @@ class Image < ApplicationRecord
   validates :url, presence: true
   validate :image_url_format_validation
 
+  acts_as_taggable
+
   def image_url_format_validation
     return if url.blank?
 

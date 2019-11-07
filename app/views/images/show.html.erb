@@ -6,5 +6,14 @@
 
 <h4>Description:</h4>
 <p><%= @image.description || "It speaks for itself"%>
+
+<h4>Tags:</h4>
+<% unless @image.tags.empty? %>
+  <li>
+    <% @image.tags.each do |tag| %>
+      <ul class="js-tag"><%= tag.name %></ul>
+    <% end %>
+  </li>
+<% end %>
 <%= link_to "Add Image", new_image_path %>
 <%= link_to "See all Images", images_path %>

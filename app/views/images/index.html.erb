@@ -8,6 +8,14 @@
         <%= image_tag image.url %>
         <p><%= image.description %></p>
       </div>
+      <h6>Tags:</h6>
+      <% unless image.tags.empty? %>
+        <li>
+          <% image.tags.each do |tag| %>
+            <ul class="js-tag"><%= tag.name %></ul>
+          <% end %>
+        </li>
+      <% end %>
     </div>
   <% end %>
 </div>

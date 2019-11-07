@@ -27,7 +27,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         image: {
           name: 'test',
           url: 'https://exammple.com/kitten',
-          description: 'a kitten'
+          description: 'a kitten',
+          tag_list: 'tag 1, tag2'
         }
       }
       post images_url(params: image_params)
@@ -55,5 +56,25 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_match(/Image links must use HTTP|Invalid URL format|can't be blank/, small.text)
     end
     assert_select '#description_input small', /can't be blank/
+  end
+
+  def test_tags_are_displayed_on_show_page
+    FactoryBot.create(:image, tag_list: 'show test')
+    image = Image.last
+    get image_path(image)
+
+    assert_select '.js-tag', 'show test'
+  end
+
+  def test_tags_are_displayed_on_index_page
+    (1..3).each do |i|
+      FactoryBot.create(:image, tag_list: "tag #{i}")
+    end
+    get images_path
+
+    assert_select '.js-tag', 3
+    assert_select '.js-tag', 'tag 1'
+    assert_select '.js-tag', 'tag 2'
+    assert_select '.js-tag', 'tag 3'
   end
 end

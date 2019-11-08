@@ -1,5 +1,5 @@
 class ImagesController < ApplicationController
-  before_action :set_image, only: [:show]
+  before_action :set_image, only: %i[show destroy]
 
   def index
     all_images = Image.includes(:tags).order(created_at: :desc)
@@ -20,6 +20,15 @@ class ImagesController < ApplicationController
       redirect_to @image
     else
       render action: :new
+    end
+  end
+
+  def destroy
+    if @image.destroy
+      flash[:success] = 'You have successfully deleted the image.'
+      redirect_to images_path
+    else
+      render action: :show
     end
   end
 

@@ -16,9 +16,11 @@
           <% end %>
         </ul>
       <% end %>
+      <%= link_to "delete", image_path(image), method: :delete , data: { confirm: 'Sure ya wanna delete?' } %>
     </div>
   <% end %>
 </div>
 <%= link_to "Add Image", new_image_path %>
 <%= link_to "See all Images", images_path %>
+
 

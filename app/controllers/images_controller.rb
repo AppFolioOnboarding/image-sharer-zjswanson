@@ -2,7 +2,10 @@ class ImagesController < ApplicationController
   before_action :set_image, only: [:show]
 
   def index
-    @images = Image.order(created_at: :desc)
+    all_images = Image.includes(:tags).order(created_at: :desc)
+    tagged_images = all_images.tagged_with(params[:tag_filter]) if params[:tag_filter].present?
+
+    @images = tagged_images.presence || all_images
   end
 
   def show; end

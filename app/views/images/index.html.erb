@@ -10,11 +10,11 @@
       </div>
       <h6>Tags:</h6>
       <% unless image.tags.empty? %>
-        <li>
+        <ul>
           <% image.tags.each do |tag| %>
-            <ul class="js-tag"><%= tag.name %></ul>
+            <li class="js-tag"><%= link_to tag, images_path(tag_filter: tag.name) %></li>
           <% end %>
-        </li>
+        </ul>
       <% end %>
     </div>
   <% end %>

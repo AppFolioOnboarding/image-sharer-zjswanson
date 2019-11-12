@@ -1,25 +1,29 @@
 <h1>Create New Image</h1>
 <%= form_with(model: @image, class: "form") do |form| %>
   <% %i[name url description].each do |attr| %>
-    <div class="form-input" id="<%= attr %>_input">
-      <%= form.label attr %>
-      <%= form.text_field attr %>
-      <% unless @image.errors[attr].empty? %>
-        <% @image.errors[attr].each do |error| %>
-          <small class="form-text text-muted"><%= error %></small>
+    <div class="form-input form-group" id="<%= attr %>_input">
+      <%= form.label attr  %>
+      <%= form.text_field attr, class: "js-#{attr}" %>
+      <div class='help-block'>
+        <% unless @image.errors[attr].empty? %>
+          <% @image.errors[attr].each do |error| %>
+            <small class="form-text text-muted"><%= error %></small>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   <% end %>
   <div class="form-input" id="tag_list_input">
       <%= form.label :tag_list %>
-      <%= form.text_field :tag_list %>
+      <%= form.text_field :tag_list, class: "js-tag-list"  %>
       <small class="form-text text-muted">Separate multiple tags with commas</small>
-      <% unless @image.errors[:tag_list].empty? %>
-        <% @image.errors[:tag_list].each do |error| %>
-          <small class="form-text text-muted"><%= error %></small>
+      <div class='help-block'>
+        <% unless @image.errors[:tag_list].empty? %>
+          <% @image.errors[:tag_list].each do |error| %>
+            <small class="form-text text-muted"><%= error %></small>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   <%= form.submit %>
 <% end %>

@@ -1,8 +1,13 @@
 <h1>Dig This Image!</h1>
+<% if flash[:success] %>
+  <h2 class="js-flash-success">
+    <%= flash[:success] %>
+  </h2>
+<% end %>
 
 <h2><%= @image.name || "Unnamed Image"%></h2>
 
-<%= image_tag @image.url %>
+<%= image_tag @image.url, class: 'js-show-image' %>
 
 <h4>Description:</h4>
 <p><%= @image.description || "It speaks for itself"%>
@@ -17,4 +22,4 @@
 <% end %>
 <%= link_to "Add Image", new_image_path %>
 <%= link_to "See all Images", images_path %>
-<%= link_to "delete", image_path(@image), method: :delete %>
+<%= link_to "delete", image_path(@image), method: :delete, data: { confirm: 'Sure ya wanna delete?' } %>

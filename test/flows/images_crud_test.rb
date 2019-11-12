@@ -8,15 +8,22 @@ class ImagesCrudTest < FlowTestCase
 
     tags = %w[foo bar]
     new_image_page = new_image_page.create_image!(
+      name: 'test image',
+      description: 'a test',
       url: 'invalid',
       tags: tags.join(', ')
     ).as_a(PageObjects::Images::NewPage)
-    assert_equal 'must be a valid URL', new_image_page.url.error_message
+    assert_match 'Invalid URL format', new_image_page.url.error_message
 
     image_url = 'https://media3.giphy.com/media/EldfH1VJdbrwY/200.gif'
     new_image_page.url.set(image_url)
 
-    image_show_page = new_image_page.create_image!
+    image_show_page = new_image_page.create_image!(
+      name: 'test image',
+      description: 'a test',
+      url: 'https://media3.giphy.com/media/EldfH1VJdbrwY/200.gif',
+      tags: tags.join(', ')
+    ).as_a(PageObjects::Images::ShowPage)
     assert_equal 'You have successfully added an image.', image_show_page.flash_message(:success)
 
     assert_equal image_url, image_show_page.image_url
@@ -28,10 +35,10 @@ class ImagesCrudTest < FlowTestCase
 
   test 'delete an image' do
     cute_puppy_url = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
-    ugly_cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
+    ugly_cat_url = 'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?ixlib=rb-1.2.1&w=1000&q=80'
     Image.create!([
-      { url: cute_puppy_url, tag_list: 'puppy, cute' },
-      { url: ugly_cat_url, tag_list: 'cat, ugly' }
+      { url: cute_puppy_url, tag_list: 'puppy, cute', name: 'test puppy', description: 'a test puppy' },
+      { url: ugly_cat_url, tag_list: 'cat, ugly', name: 'test cat', description: 'a test cat'  }
     ])
 
     images_index_page = PageObjects::Images::IndexPage.visit
@@ -45,7 +52,7 @@ class ImagesCrudTest < FlowTestCase
     image_show_page = image_to_delete.view!
 
     image_show_page.delete do |confirm_dialog|
-      assert_equal 'Are you sure?', confirm_dialog.text
+      assert_equal 'Sure ya wanna delete?', confirm_dialog.text
       confirm_dialog.dismiss
     end
 
@@ -60,11 +67,11 @@ class ImagesCrudTest < FlowTestCase
   test 'view images associated with a tag' do
     puppy_url1 = 'http://www.pawderosa.com/images/puppies.jpg'
     puppy_url2 = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
-    cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
+    cat_url = 'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?ixlib=rb-1.2.1&w=1000&q=80'
     Image.create!([
-      { url: puppy_url1, tag_list: 'superman, cute' },
-      { url: puppy_url2, tag_list: 'cute, puppy' },
-      { url: cat_url, tag_list: 'cat, ugly' }
+      { url: puppy_url1, tag_list: 'superman, cute', name: 'test puppy', description: 'a test puppy' },
+      { url: puppy_url2, tag_list: 'cute, puppy', name: 'test puppy', description: 'a test puppy' },
+      { url: cat_url, tag_list: 'cat, ugly', name: 'test cat', description: 'a test cat' }
     ])
 
     images_index_page = PageObjects::Images::IndexPage.visit

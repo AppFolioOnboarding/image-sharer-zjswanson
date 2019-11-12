@@ -17,6 +17,7 @@ class ImagesController < ApplicationController
   def create
     @image = Image.new(image_params)
     if @image.save
+      flash[:success] = 'You have successfully added an image.'
       redirect_to @image
     else
       render action: :new

@@ -1,10 +1,15 @@
 <h1>Welcome to the Image Sharer!</h1>
+<% if flash[:success] %>
+  <h2 class="js-flash-success">
+    <%= flash[:success] %>
+  </h2>
+<% end %>
 
-<div class="row">
+<div class="row js-image-block">
   <% @images.each do |image| %>
     <div class="col-sm-12 col-md-6 col-lg-4 js-image-container image-container">
       <div class="image-card">
-        <h4 class="js-image-name"><%= image.name %></h4>
+        <h4 class="js-image-name"><%= link_to image.name, image_path(image) %></h4>
         <%= image_tag image.url %>
         <p><%= image.description %></p>
       </div>
